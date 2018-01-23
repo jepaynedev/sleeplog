@@ -3,6 +3,9 @@ from setuptools import setup
 requires = [
     'pyramid',
     'waitress',
+    'sqlalchemy',
+    'pyramid_tm',
+    'zope.sqlalchemy',
 ]
 
 setup(
@@ -11,5 +14,7 @@ setup(
     entry_points="""
     [paste.app_factory]
     main = sleeplog:main
+    [console_scripts]
+    initialize_sleeplog_db = sleeplog.initialize_db:main
     """,
 )

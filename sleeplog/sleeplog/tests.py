@@ -21,10 +21,14 @@ class SleepLogViewTests(unittest.TestCase):
 
 class SleepLogFunctionalTests(unittest.TestCase):
     def setUp(self):
-        from sleeplog import main
-        app = main({})
+        from pyramid.paster import get_app
+        app = get_app('development.ini')
         from webtest import TestApp
         self.testapp = TestApp(app)
+
+    def tearDown(self):
+        from .models import DBSession
+        DBSession.remove()
 
     def test_home(self):
         res = self.testapp.get('/', status=200)
