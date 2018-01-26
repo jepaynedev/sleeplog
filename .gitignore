@@ -34,3 +34,4 @@ docs/_build/
 # Misc
 .python-version
 venv/
+*/credentials.json
