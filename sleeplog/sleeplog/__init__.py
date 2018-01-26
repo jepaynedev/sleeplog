@@ -15,6 +15,7 @@ def main(global_config, **settings):
         settings=settings,
         root_factory='sleeplog.models.Root'
     )
+    config.include('pyramid_jinja2')
     config.add_route('home', '/')
     config.scan('.views')
     return config.make_wsgi_app()

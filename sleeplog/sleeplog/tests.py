@@ -16,13 +16,13 @@ class SleepLogViewTests(unittest.TestCase):
         request = testing.DummyRequest()
         inst = SleepLogViews(request)
         response = inst.home()
-        self.assertEqual(b'Placeholder', response.body)
+        self.assertFalse(response)
 
 
 class SleepLogFunctionalTests(unittest.TestCase):
     def setUp(self):
         from pyramid.paster import get_app
-        app = get_app('development.ini')
+        app = get_app('test.ini')
         from webtest import TestApp
         self.testapp = TestApp(app)
 
@@ -32,4 +32,4 @@ class SleepLogFunctionalTests(unittest.TestCase):
 
     def test_home(self):
         res = self.testapp.get('/', status=200)
-        self.assertIn(b'Placeholder', res.body)
+        self.assertIn(b'Sleep Log', res.body)

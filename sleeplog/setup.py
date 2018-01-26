@@ -6,6 +6,7 @@ requires = [
     'sqlalchemy',
     'pyramid_tm',
     'zope.sqlalchemy',
+    'pyramid_jinja2',
 ]
 
 setup(

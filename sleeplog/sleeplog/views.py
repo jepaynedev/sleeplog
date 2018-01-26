@@ -1,7 +1,7 @@
-from pyramid.response import Response
-from pyramid.view import view_config
+from pyramid.view import view_config, view_defaults
 
 
+@view_defaults(renderer='home.jinja2')
 class SleepLogViews:
 
     def __init__(self, request):
@@ -9,4 +9,4 @@ class SleepLogViews:
 
     @view_config(route_name='home')
     def home(request):
-        return Response('Placeholder')
+        return {}
