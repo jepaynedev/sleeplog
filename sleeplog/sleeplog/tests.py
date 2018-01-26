@@ -16,7 +16,8 @@ class SleepLogViewTests(unittest.TestCase):
         request = testing.DummyRequest()
         inst = SleepLogViews(request)
         response = inst.home()
-        self.assertFalse(response)
+        # Not ideal, but I want to quickly have a way to keep the id secret
+        self.assertTrue(response['client_id'].endswith('.apps.googleusercontent.com'))
 
 
 class SleepLogFunctionalTests(unittest.TestCase):
@@ -32,4 +33,4 @@ class SleepLogFunctionalTests(unittest.TestCase):
 
     def test_home(self):
         res = self.testapp.get('/', status=200)
-        self.assertIn(b'Sleep Log', res.body)
+        self.assertIn(b'.apps.googleusercontent.com', res.body)

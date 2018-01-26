@@ -1,5 +1,7 @@
 from pyramid.view import view_config, view_defaults
 
+from .google_oauth_config import credentials
+
 
 @view_defaults(renderer='home.jinja2')
 class SleepLogViews:
@@ -9,4 +11,6 @@ class SleepLogViews:
 
     @view_config(route_name='home')
     def home(request):
-        return {}
+        return {
+            'client_id': credentials['web']['client_id'],
+        }
