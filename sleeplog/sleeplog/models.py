@@ -34,11 +34,3 @@ class Observer(Base):
     est_apnea = Column(Integer, nullable=True)
     couch_sleep = Column(Boolean, nullable=False)
     comments = Column(Text, nullable=True)
-
-
-class Root(object):
-    __acl__ = [(Allow, Everyone, 'view'),
-               (Allow, 'group:editors', 'edit')]
-
-    def __init__(self, request):
-        pass
