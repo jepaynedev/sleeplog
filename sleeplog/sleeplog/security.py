@@ -19,9 +19,6 @@ def verify_google_token(token):
         if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
             raise ValueError('Wrong issuer.')
 
-        from pprint import pprint
-        pprint(idinfo)
-
         # ID token is valid. Get the user's Google Account ID from the decoded token.
         # While we have the parsed info, before returning, make sure we have
         # a valid database entry for this user, else create a new one
