@@ -7,6 +7,7 @@ requires = [
     'pyramid_tm',
     'zope.sqlalchemy',
     'pyramid_jinja2',
+    'google_auth',
 ]
 
 setup(

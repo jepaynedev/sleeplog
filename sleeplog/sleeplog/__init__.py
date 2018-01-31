@@ -17,7 +17,7 @@ def main(global_config, **settings):
 
     config = Configurator(
         settings=settings,
-        root_factory='.resources.Root'
+        root_factory='.security.Root'
     )
     config.include('pyramid_tm')
     config.include('pyramid_jinja2')

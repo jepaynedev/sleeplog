@@ -3,6 +3,7 @@ from pyramid.view import view_config, view_defaults, forbidden_view_config
 from pyramid.security import remember, forget
 
 from .configuration import google_client_id
+from .security import verify_google_token
 
 
 @view_defaults(renderer='home.jinja2')
@@ -28,11 +29,13 @@ class SleepLogViews:
             referrer = '/'  # never use login form itself as came_from
         came_from = request.params.get('came_from', referrer)
         message = ''
-        login = ''
+        user_id = ''
         if 'form.submitted' in request.params:
-            login = request.params['login']
-            if True:  # TODO: Actually check for id_token validity
-                headers = remember(request, login)
+            token = request.params['token']
+            user_id = verify_google_token(token)
+            if user_id:
+                print(user_id)
+                headers = remember(request, user_id)
                 return HTTPFound(
                     location=came_from,
                     headers=headers
@@ -43,7 +46,7 @@ class SleepLogViews:
             message=message,
             url=request.application_url + '/login',
             came_from=came_from,
-            login=login,
+            token=user_id,
             client_id=google_client_id,
         )
 
