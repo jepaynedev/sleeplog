@@ -1,8 +1,10 @@
 from pyramid.security import Allow, Deny, Authenticated, Everyone
 from google.oauth2 import id_token
 from google.auth.transport import requests
+import transaction
 
 from .configuration import google_client_id
+from .models import DBSession, User
 
 
 def verify_google_token(token):
@@ -17,7 +19,25 @@ def verify_google_token(token):
         if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
             raise ValueError('Wrong issuer.')
 
+        from pprint import pprint
+        pprint(idinfo)
+
         # ID token is valid. Get the user's Google Account ID from the decoded token.
+        # While we have the parsed info, before returning, make sure we have
+        # a valid database entry for this user, else create a new one
+        with transaction.manager:
+            model = User(
+                sub=idinfo['sub'],
+                email=idinfo['email'],
+                verified=idinfo['email_verified'],
+                name=idinfo['name'],
+                given=idinfo['given_name'],
+                family=idinfo['family_name'],
+                locale=idinfo['locale'],
+                picture=idinfo['picture'],
+            )
+            DBSession.merge(model)
+
         return idinfo['sub']
     except ValueError:
         # Invalid token
