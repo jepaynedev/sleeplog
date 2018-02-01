@@ -1,0 +1,20 @@
+{% extends "layout.jinja2" %}
+
+{% block head %}
+    <script type="text/javascript">
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(function () {
+                window.location = '{{request.application_url}}/logout';
+            });
+        }
+    </script>
+{% endblock head %}
+
+{% block content %}
+    {% if view.logged_in is none %}
+        <a href="{{request.application_url}}/login">Log In</a>
+    {% else %}
+        <a href="#" onclick="signOut();">Sign Out</a>
+    {% endif %}
+{% endblock content %}

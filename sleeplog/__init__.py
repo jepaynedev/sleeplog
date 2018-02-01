@@ -1,30 +1,21 @@
-import logging
-log = logging.getLogger(__name__)
-
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
 from pyramid.session import SignedCookieSessionFactory
-from sqlalchemy import engine_from_config
 
-from .models import DBSession, Base
-from .configuration import authtkt_secret, session_secret
+from .models.config import authtkt_secret, session_secret
 
 
 def main(global_config, **settings):
     session_factory = SignedCookieSessionFactory(session_secret)
-
-    engine = engine_from_config(settings, 'sqlalchemy.')
-    DBSession.configure(bind=engine)
-    Base.metadata.bind = engine
-
     config = Configurator(
         settings=settings,
-        root_factory='.security.Root',
+        root_factory='.action.security.Root',
         session_factory=session_factory,
     )
-    config.include('pyramid_tm')
     config.include('pyramid_jinja2')
+    config.include('.models')
+    config.include('.routes')
 
     # Security policies
     authn_policy = AuthTktAuthenticationPolicy(
@@ -35,8 +26,5 @@ def main(global_config, **settings):
     config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)
 
-    config.add_route('home', '/')
-    config.add_route('login', '/login')
-    config.add_route('logout', '/logout')
-    config.scan('.views')
+    config.scan()
     return config.make_wsgi_app()

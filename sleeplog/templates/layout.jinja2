@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="{{ '{{request.locale_name}}' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="sleeplog">
+    <meta name="author" content="jepaynedev.com">
+    <title>Sleep Log</title>
+
+    <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+    <meta name="google-signin-client_id" content="{{client_id}}">
+    <script type="text/javascript">
+        function onLoad() {
+            gapi.load('auth2', function() {
+                gapi.auth2.init();
+            });
+        }
+    </script>
+    {% block head %}
+    {% endblock head %}
+  </head>
+  <body>
+    {% block content %}
+        <p>No content</p>
+    {% endblock content %}
+  </body>
+</html>

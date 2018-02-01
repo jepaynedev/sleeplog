@@ -2,11 +2,11 @@ from pyramid.httpexceptions import HTTPFound
 from pyramid.view import view_config, view_defaults, forbidden_view_config
 from pyramid.security import remember, forget
 
-from .configuration import google_client_id
-from .security import verify_google_token
+from ..models.config import google_client_id
+from ..action.security import verify_google_token
 
 
-@view_defaults(renderer='home.jinja2')
+@view_defaults(renderer='../templates/home.jinja2')
 class SleepLogViews:
 
     def __init__(self, request):
@@ -19,8 +19,8 @@ class SleepLogViews:
             client_id=google_client_id,
         )
 
-    @view_config(route_name='login', renderer='login.jinja2')
-    @forbidden_view_config(renderer='login.jinja2')
+    @view_config(route_name='login', renderer='../templates/login.jinja2')
+    @forbidden_view_config(renderer='../templates/login.jinja2')
     def login(self):
         request = self.request
         login_url = request.route_url('login')
@@ -32,7 +32,7 @@ class SleepLogViews:
         user_id = ''
         if 'form.submitted' in request.params:
             token = request.params['token']
-            user_id = verify_google_token(token)
+            user_id = verify_google_token(token, request)
             if user_id:
                 print(user_id)
                 headers = remember(request, user_id)
