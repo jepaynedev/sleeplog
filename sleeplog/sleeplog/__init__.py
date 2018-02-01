@@ -4,20 +4,24 @@ log = logging.getLogger(__name__)
 from pyramid.authentication import AuthTktAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 from pyramid.config import Configurator
+from pyramid.session import SignedCookieSessionFactory
 from sqlalchemy import engine_from_config
 
 from .models import DBSession, Base
-from .configuration import authtkt_secret
+from .configuration import authtkt_secret, session_secret
 
 
 def main(global_config, **settings):
+    session_factory = SignedCookieSessionFactory(session_secret)
+
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
 
     config = Configurator(
         settings=settings,
-        root_factory='.security.Root'
+        root_factory='.security.Root',
+        session_factory=session_factory,
     )
     config.include('pyramid_tm')
     config.include('pyramid_jinja2')
