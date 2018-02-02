@@ -15,6 +15,7 @@ def main(global_config, **settings):
     )
     config.include('pyramid_jinja2')
     config.include('.models')
+    config.include('.models.user')
     config.include('.routes')
 
     # Security policies

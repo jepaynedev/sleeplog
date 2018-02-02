@@ -34,7 +34,6 @@ class SleepLogViews:
             token = request.params['token']
             user_id = verify_google_token(token, request)
             if user_id:
-                print(user_id)
                 headers = remember(request, user_id)
                 return HTTPFound(
                     location=came_from,
