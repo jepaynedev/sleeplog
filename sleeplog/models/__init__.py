@@ -1,14 +1,21 @@
 from sqlalchemy import engine_from_config
 from sqlalchemy.orm import (
     configure_mappers,
-    scoped_session,
     sessionmaker
 )
 import zope.sqlalchemy
 
 # import or define all models here to ensure they are attached to the
 # Base.metadata prior to any initialization routines
-from .mymodels import Sleeper, Observer, User
+from .mymodels import (
+    User,
+    SleepLog,
+    SleepLogRoles,
+    SleepLogParticipants,
+    SleepLogInvitations,
+    SleeperEntry,
+    ObserverEntry,
+)
 
 # run configure_mappers after defining all of the models to ensure
 # all relationships can be setup
