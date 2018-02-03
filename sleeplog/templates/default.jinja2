@@ -12,9 +12,6 @@
 {% endblock head %}
 
 {% block content %}
-    {% if view.logged_in is none %}
-        <a href="{{request.application_url}}/login">Log In</a>
-    {% else %}
-        <a href="#" onclick="signOut();">Sign Out</a>
-    {% endif %}
+    <h4>Welcome, {{given}}!</h4>
+    <a href="#" onclick="signOut();">Sign Out</a>
 {% endblock content %}

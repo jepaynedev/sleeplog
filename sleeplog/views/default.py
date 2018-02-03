@@ -15,7 +15,9 @@ class SleepLogViews:
 
     @view_config(route_name='default')
     def default(self):
+        user = self.request.user
         return dict(
+            given=user.given,
             client_id=google_client_id,
         )
 
