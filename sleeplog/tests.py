@@ -10,12 +10,12 @@ class SleepLogViewTests(unittest.TestCase):
     def tearDown(self):
         testing.tearDown()
 
-    def test_home(self):
+    def test_default(self):
         from .views.default import SleepLogViews
 
         request = testing.DummyRequest()
         inst = SleepLogViews(request)
-        response = inst.home()
+        response = inst.default()
         # Not ideal, but I want to quickly have a way to keep the id secret
         self.assertTrue(response['client_id'].endswith('.apps.googleusercontent.com'))
 
@@ -30,6 +30,6 @@ class SleepLogFunctionalTests(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_home(self):
+    def test_default(self):
         res = self.testapp.get('/', status=200)
         self.assertIn(b'.apps.googleusercontent.com', res.body)
