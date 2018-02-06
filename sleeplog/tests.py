@@ -46,13 +46,25 @@ class SleepLogFunctionalTests(unittest.TestCase):
         transaction.abort()
 
     @mock.patch('sleeplog.views.default.verify_google_token', return_value='105578945702061677132', autospec=True)
-    def test_default(self, mock_verify):
-        redirect_resp = self.testapp.post(
+    def _login(self, *args):
+        redirect_res = self.testapp.post(
             '/login',
             params={'form.submitted': 'Log In', 'token': 'dummy_token'},
             status=302,
         )
-        res = redirect_resp.follow(status=200)
+        redirect_res.follow(status=200)
+
+    @mock.patch('sleeplog.views.default.verify_google_token', return_value='105578945702061677132', autospec=True)
+    def test_login(self, mock_verify):
+        self.testapp.post(
+            '/login',
+            params={'form.submitted': 'Log In', 'token': 'dummy_token'},
+            status=302,
+        )
         self.assertTrue(mock_verify.called)
+
+    def test_default(self):
+        self._login()
+        res = self.testapp.get('/', status=200)
         self.assertIn(b'Welcome, James!', res.body)
         self.assertIn(b'.apps.googleusercontent.com', res.body)
