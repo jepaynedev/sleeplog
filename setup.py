@@ -2,8 +2,9 @@ from setuptools import setup
 
 requires = [
     'google_auth',
+    'requests',
     'plaster_pastedeploy',
-    'pyramid >= 1.9a',
+    'pyramid < 2.0',
     'pyramid_debugtoolbar',
     'pyramid_jinja2',
     'pyramid_retry',
