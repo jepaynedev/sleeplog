@@ -10,6 +10,7 @@ In the interest of not managing my own authentication for users, this project qu
 Setup
 -----
 As this project is never intented to be finished or shared, setup instructions are very high level.
+
 #. Clone repository
 #. Install locally with ``pip install -e .[dev]``
 #. Create a .env file to set keys for the sleeplog/models/config.py environment variables
