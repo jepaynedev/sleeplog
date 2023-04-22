@@ -1,4 +1,10 @@
 import os
+# In [dev] setup try to import from .env
+try:
+    import dotenv
+    dotenv.load_dotenv()
+except ImportError:
+    pass
 
 # Authentication
 authtkt_secret = os.environ['AUTHTKT_SECRET']
