@@ -14,7 +14,7 @@ requires = [
     'waitress',
 ]
 
-tests_require = [
+dev_require = [
     'WebTest >= 1.3.1',  # py3 compat
     'pytest',
     'pytest-cov',
@@ -25,7 +25,7 @@ setup(
     author='James Payne',
     author_email='contact@jepaynedev.com',
     extras_require={
-        'testing': tests_require,
+        'dev': dev_require,
     },
     install_requires=requires,
     entry_points={
